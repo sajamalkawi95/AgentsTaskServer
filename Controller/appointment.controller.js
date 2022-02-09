@@ -1,8 +1,11 @@
 "use strict";
-const { model, Model } = require("mongoose");
 const { appointmentModel } = require("../Models/appointment.model");
 
-
+/*
+* ================
+*  book Appointment
+* ================
+*/
 const creatAppointment = async (data) => {
     const { appointmentDate, buyerName, sellerId, state } = data;
     const new_appointment = new appointmentModel({
@@ -18,6 +21,11 @@ const creatAppointment = async (data) => {
     }
 }
 
+/*
+*==========================
+*view all Appointment for the single seller
+*==========================
+*/
 const allAppointment = async (seller_Id) => {
     try {
         appointmentModel.find({ sellerId: seller_Id }, (err, appointments) => {
@@ -33,6 +41,13 @@ const allAppointment = async (seller_Id) => {
 
     }
 }
+
+/*
+*==========================
+*accept or reject Appointment
+*==========================
+*/
+
 const updateAppointmentState = async (accepted, AppointmentID) => {
     let AppointmentState = accepted ? "accepted" : "rejected";
 
