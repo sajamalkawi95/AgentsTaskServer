@@ -85,9 +85,9 @@ MONGO_DB_URL = mongodb + srv://Agents:Agents@cluster0.7ylfj.mongodb.net/Agents?r
 app.get("/", (req, res) => res.send("<h1> Welcome to our server 😊<h1>")); // Proof Of Life Route
 app.get("/getAllSellers", getAllSellers) // endpoint to retreive all sellers
 app.get("/getSomeSellers", getSomeSellers) // endpoint to retreive all sellers with name contains a searhed text
-app.get("/creatAppointment", creatAppointment) // endpoint to book Appointment
+app.post("/creatAppointment", creatAppointment) // endpoint to book Appointment
 app.get("/allAppointment", allAppointment)  // endpoint to view all Appointment for the single seller
-app.get("/updateState", updateAppointmentState) // endpoint to accsept or reject Appointment
+app.get('/updateState/:appointmentID', updateAppointmentState) // endpoint to accsept or reject Appointment
 app.post("/auth", auth) // endpoint to accsept or reject Appointment
 
 
@@ -97,14 +97,3 @@ app.listen(PORT, () => {
 
 
 
-
-  //addUser("saja5", "Saja5", "sajaoi", "222", "1")
-        // seedFunction2({ appointmentDate: new Date(), buyerName: "Saja", sellerId: "620280a984c1a217ebfa865a", state: "waiting ..." })
-        // getAllSellers()
-        //getSomeSellers()
-/* creatAppointment({
-     appointmentDate: new Date(), buyerName: "Saja",
-     sellerId: "6202f3e710a23ac0c9a4c87f", state: "waiting ..."
- })*/
-        //   allAppointment('620280a984c1a217ebfa865a')
-        //updateAppointmentState(true, '6202fee5ee81d7b385370a71')

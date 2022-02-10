@@ -1,13 +1,15 @@
 "use strict";
 const { appointmentModel } = require("../Models/appointment.model");
+const mongoose = require("mongoose");
+var ObjectId = mongoose.Types.ObjectId;
 
 /*
 * ================
 *  book Appointment
 * ================
 */
-const creatAppointment = async (data) => {
-    const { appointmentDate, buyerName, sellerId, state } = data;
+const creatAppointment = async (req, res) => {
+    const { appointmentDate, buyerName, sellerId, state } = req.body;
     const new_appointment = new appointmentModel({
         appointmentDate: appointmentDate,
         buyerName: buyerName,
@@ -16,24 +18,26 @@ const creatAppointment = async (data) => {
     });
     try {
         await new_appointment.save();
+        res.send("Done")
     } catch (error) {
         console.log('some thing wrong', error)
     }
 }
 
 /*
+
 *==========================
 *view all Appointment for the single seller
 *==========================
 */
-const allAppointment = async (seller_Id) => {
+const allAppointment = async (req, res) => {
+    const { seller_Id } = req.query
     try {
         appointmentModel.find({ sellerId: seller_Id }, (err, appointments) => {
             if (appointments === null) {
                 res.send('no data was found');
             } else {
-                // res.json(appointments);
-                console.log(appointments);
+                res.json(appointments);
             }
         })
     } catch (err) {
@@ -48,19 +52,32 @@ const allAppointment = async (seller_Id) => {
 *==========================
 */
 
-const updateAppointmentState = async (accepted, AppointmentID) => {
-    let AppointmentState = accepted ? "accepted" : "rejected";
+const updateAppointmentState = async (req, res) => {
 
-    console.log(AppointmentState);
+    const { appointmentID } = req.params;
+    const { accepted } = req.query;
+    console.log(req.params);
+    console.log(req.query);
+
+    let appointmentState = accepted == 'true' ? "accepted" : "rejected";
+
+
+    console.log(appointmentState);
+
+    console.log(appointmentID);
     try {
 
-        appointmentModel.findOneAndUpdate({ _id: AppointmentID }, { state: AppointmentState },
+        appointmentModel.findOneAndUpdate({ _id: new ObjectId(appointmentID) }, { state: appointmentState },
             function (err, docs) {
                 if (err) {
                     console.log(err)
+                    res.json(err)
+
                 }
+
                 else {
                     console.log("Updated User : ", docs);
+                    res.json(docs)
                 }
             }
         )

@@ -30,7 +30,7 @@ const auth = async (req, res) => {
                 res.json({ type: 0 })
             } else {
                 if (user.password == pass) {
-                    res.json({ type: user.usertype })
+                    res.json({ type: user.usertype, id: user._id })
                 } else {
                     res.json({ type: -1 })
                 }
@@ -53,14 +53,13 @@ const auth = async (req, res) => {
 * ================
 */
 
-const getAllSellers = async () => {
+const getAllSellers = async (req, res) => {
     try {
-        userModel.find({ usertype: 2 }, (err, buyers) => {
-            if (buyers === null) {
-                res.send('no data was found');
+        userModel.find({ usertype: 2 }, (err, sellers) => {
+            if (sellers === null) {
+                res.json([]);
             } else {
-                // res.json(buyers);
-                console.log(buyers);
+                res.json(sellers);
             }
         })
     }
@@ -76,23 +75,25 @@ const getAllSellers = async () => {
 * ================
 */
 
-const getSomeSellers = async (search) => {
+const getSomeSellers = async (req, res) => {
+    const { search } = req.query;
+    console.log(search + "term");
     try {
-        userModel.find({ usertype: 2 }, (err, buyers) => {
-            if (buyers === null) {
-                res.send('no data was found');
+        userModel.find({ usertype: 2 }, (err, sellers) => {
+            if (sellers === null) {
+                res.json([]);
             } else {
-                let serchedBuyers = buyers.filter(buyer => {
-                    return buyer.fullName.toLowerCase().includes(search.toLowerCase())
+                let serchedSellers = sellers.filter(sellers => {
+                    return sellers.fullName.toLowerCase().includes(search.toLowerCase())
                 }
                 )
-
-                // res.json(buyers);
-                console.log(serchedBuyers);
+                console.log(serchedSellers);
+                res.json(serchedSellers);
             }
         })
     }
     catch (err) {
+        console.log('some thing wrong', error)
 
     }
 }
