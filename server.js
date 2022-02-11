@@ -79,12 +79,12 @@ MONGO_DB_URL = mongodb + srv://Agents:Agents@cluster0.7ylfj.mongodb.net/Agents?r
 
 /**
  * =======================
- * End Poins
+ * End Point
  * =======================
  */
 app.get("/", (req, res) => res.send("<h1> Welcome to our server 😊<h1>")); // Proof Of Life Route
 app.get("/getAllSellers", getAllSellers) // endpoint to retreive all sellers
-app.get("/getSomeSellers", getSomeSellers) // endpoint to retreive all sellers with name contains a searhed text
+app.get("/getSomeSellers", getSomeSellers) // endpoint to retreive all sellers with name contains a searched text
 app.post("/creatAppointment", creatAppointment) // endpoint to book Appointment
 app.get("/allAppointment", allAppointment)  // endpoint to view all Appointment for the single seller
 app.get('/updateState/:appointmentID', updateAppointmentState) // endpoint to accsept or reject Appointment
